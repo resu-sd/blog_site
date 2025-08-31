@@ -1,0 +1,64 @@
+
+
+{% extends "base.html" %} 
+{% block contents %}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    
+    {% if request.user.is_authenticated and request.user.is_author %}
+      <a href="{% url 'create_post' %}" class="btn btn-primary">Create Post</a>
+    {% else %}
+      <p class="text-danger mb-0">⚠️ You must login  to create a post.</p>
+    {% endif %}
+
+   
+   
+      <form method="GET" action="{% url 'category_list' %}" class="d-flex align-items-center">
+        <select id="category" name="category" class="form-select form-select-sm me-2">
+          <option value="">--Select a category--</option>
+          {% for item in category %}
+            <option value="{{ item.id }}">{{ item.name }}</option>
+          {% endfor %}
+        </select>
+        <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+      </form>
+   
+  </div>
+
+
+
+
+  
+  {% for category in categories %}
+    <h3 class="text-primary fw-bold mb-3 bg-light border-bottom border-2 border-secondary p-2">
+    {{ category.name }}
+   </h3>
+
+    <div class="row g-4 mb-5">
+      {% for post in posts %}
+        {% if post.category == category %}
+          <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 rounded-3">
+              {% if post.image %}
+                <img src="{{ post.image.url }}" class="post_image card-img-top" alt="{{ post.title }}">
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <p class="text-muted mb-1">Author: {{ post.author }}</p>
+                <p class="text-muted mb-1">Category: {{ post.category }}</p>
+                <p class="text-muted mb-2">Published: {{ post.created_at|date:"F j, Y" }}</p>
+                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                <a href="{% url 'post_detail' post.id post.slug %}" class="btn btn-primary btn-sm mt-2">Read More</a>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+</div>
+
+{% endblock contents %}
+

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block contents %}
+<div class="container mt-5 pt-5">
+
+    <h2 class="text-center fw-bold text-primary mb-4">📩 Contact <span class="text-warning">Blogger's Haven</span></h2>
+    <p class="text-center text-muted lead mb-5">
+        Have questions, suggestions, or just want to say hello? Reach out to us!
+    </p>
+
+    <!-- Feedback Form -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 p-4 rounded-4 bg-light">
+                <h4 class="fw-bold text-dark mb-3">💬 Send Us Feedback</h4>
+                <form method="post" action="{% url 'create_feedback' %}">
+                    {% csrf_token %}
+                    {% if request.user.is_authenticated %}
+                        {{form.as_p}}
+                        
+                        <button type="submit" class="btn btn-primary w-100 fw-semibold">📨 Send Feedback</button>
+                    {% else %}
+                        <p class="text-center text-danger fw-semibold">Please log in to send feedback.</p>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 p-4 rounded-4 bg-light text-center">
+                <h4 class="fw-bold text-dark mb-3">📍 Contact Info</h4>
+                <p class="mb-1">Email: <a href="mailto:support@bloggershaven.com">support@bloggershaven.com</a></p>
+                <p class="mb-1">Phone: +977 1234 56789</p>
+                <p class="mb-0">Address: Kathmandu, Nepal</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Media Links -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 text-center">
+            <h4 class="fw-bold mb-3">🌐 Connect With Us</h4>
+            <p class="mb-3">Follow us on social media for updates and discussions.</p>
+            <div class="d-flex justify-content-center gap-4">
+                <a href="https://www.facebook.com/login" target="_blank" class="btn btn-outline-primary btn-sm">Facebook</a>
+                <a href="https://www.instagram.com/accounts/login" target="_blank" class="btn btn-outline-danger btn-sm">Instagram</a>
+                <a href="https://x.com/login" target="_blank" class="btn btn-outline-info btn-sm">Twitter</a>
+                <a href="https://www.linkedin.com/login" target="_blank" class="btn btn-outline-secondary btn-sm">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock contents %}
